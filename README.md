@@ -12,7 +12,11 @@ A cross-platform chat application built with Flutter.
 
 ## Screenshots
 
-<!-- Add your screenshots here -->
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+  <img src="screenshots/login.jpg" alt="Login screen" style="width: 300px; max-width: 100%; height: auto;"/>
+  <img src="screenshots/signup.jpg" alt="signup screen" style="width: 300px; max-width: 100%; height: auto;"/>
+  <img src="screenshots/chat.jpg" alt="chat screen" style="width: 300px; max-width: 100%; height: auto;"/>
+</div>
 
 ## Getting Started
 

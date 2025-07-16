@@ -46,30 +46,54 @@ class _NewMessageState extends State<NewMessage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.only(left: 12, right: 12, bottom: 14, top: 1),
+      padding: const EdgeInsets.only(left: 12, right: 12, bottom: 18, top: 6),
+      decoration: const BoxDecoration(
+        color: Colors.transparent,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.transparent,
+            blurRadius: 0,
+          ),
+        ],
+      ),
       child: Row(
         children: [
           Expanded(
-            child: TextField(
-              controller: _messageController,
-              enableSuggestions: true,
-              decoration: InputDecoration(
-                hintText: 'Send a message...',
-                filled: true,
-                fillColor: Colors.grey[200],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide:
-                      BorderSide.none, // Remove border lines for a clean look
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.07),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: TextField(
+                controller: _messageController,
+                enableSuggestions: true,
+                minLines: 1,
+                maxLines: 5,
+                decoration: InputDecoration(
+                  hintText: 'Send a message...',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 14, horizontal: 22),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.send, color: theme.colorScheme.primary),
+                    onPressed: _sendMessage,
+                  ),
                 ),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.send,
-                      color: Theme.of(context).colorScheme.primary),
-                  onPressed: _sendMessage,
-                ),
+                style: const TextStyle(fontSize: 16),
               ),
             ),
           ),

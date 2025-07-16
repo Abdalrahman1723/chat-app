@@ -43,6 +43,7 @@ class ChatMessage extends StatelessWidget {
           itemCount: loadedMessages.length,
           itemBuilder: (ctx, index) {
             final chatMessage = loadedMessages[index].data();
+            final messageId = loadedMessages[index].id;
             final nextMessage = index + 1 < loadedMessages.length
                 ? loadedMessages[index + 1].data()
                 : null;
@@ -57,12 +58,14 @@ class ChatMessage extends StatelessWidget {
             if (isNextUserIsSame) {
               return MessageBubble.next(
                   message: chatMessage['message'],
-                  isMe: authUser.uid == currentMessageUserId);
+                  isMe: authUser.uid == currentMessageUserId,
+                  messageId: messageId);
             } else {
               return MessageBubble.first(
                   username: chatMessage['username'],
                   message: chatMessage['message'],
-                  isMe: authUser.uid == currentMessageUserId);
+                  isMe: authUser.uid == currentMessageUserId,
+                  messageId: messageId);
             }
           },
         );

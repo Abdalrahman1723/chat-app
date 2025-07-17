@@ -1,32 +1,27 @@
 name: chat
 description: "A new Flutter project."
 
-
 version: 1.0.0+1
 
 environment:
   sdk: ^3.5.3
 
-
 dependencies:
   flutter:
     sdk: flutter
-
 
   cupertino_icons: ^1.0.8
   firebase_core: ^3.6.0
   firebase_auth: ^5.3.3
   connectivity_plus: ^4.0.0
   cloud_firestore: ^5.5.0
+  easy_notify: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_launcher_icons: "^0.14.1"
-
-
-
 
   flutter_lints: ^4.0.0
 
@@ -36,8 +31,6 @@ flutter_launcher_icons:
   image_path: "assets/speak.png"
 
 flutter:
-
-  
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:

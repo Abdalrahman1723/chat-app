@@ -47,7 +47,6 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return Stack(
       children: [
@@ -58,6 +57,7 @@ class MessageBubble extends StatelessWidget {
                 isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
             children: [
               Column(
+                //if me -> show it on the right of the screen. otherwise -> on the left
                 crossAxisAlignment:
                     isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                 children: [
@@ -68,6 +68,7 @@ class MessageBubble extends StatelessWidget {
                         left: 13,
                         right: 13,
                       ),
+                      //show user name
                       child: Text(
                         username!,
                         style: TextStyle(
@@ -79,78 +80,79 @@ class MessageBubble extends StatelessWidget {
                         ),
                       ),
                     ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: isMe
-                          ? theme.colorScheme.primary.withOpacity(0.85)
-                          : theme.colorScheme.secondary.withOpacity(0.85),
-                      borderRadius: BorderRadius.only(
-                        topLeft: !isMe && isFirstInSequence
-                            ? Radius.zero
-                            : const Radius.circular(18),
-                        topRight: isMe && isFirstInSequence
-                            ? Radius.zero
-                            : const Radius.circular(18),
-                        bottomLeft: const Radius.circular(18),
-                        bottomRight: const Radius.circular(18),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.08),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    constraints: const BoxConstraints(maxWidth: 320),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 14,
-                      horizontal: 18,
-                    ),
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 6,
-                      horizontal: 8,
-                    ),
-                    child: GestureDetector(
-                      onLongPress: isMe
-                          ? () async {
-                              final shouldDelete = await showDialog<bool>(
-                                context: context,
-                                builder: (ctx) => AlertDialog(
-                                  title: const Text('Delete Message'),
-                                  content: const Text(
-                                      'Are you sure you want to delete this message?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(ctx).pop(false),
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(ctx).pop(true),
-                                      child: const Text('Delete',
-                                          style: TextStyle(color: Colors.red)),
-                                    ),
-                                  ],
-                                ),
-                              );
-                              if (shouldDelete == true) {
-                                try {
-                                  await FirebaseFirestore.instance
-                                      .collection('chat')
-                                      .doc(messageId)
-                                      .delete();
-                                } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content:
-                                            Text('Failed to delete message.')),
-                                  );
-                                }
+                  GestureDetector(
+                    //delete message option
+                    onLongPress: isMe
+                        ? () async {
+                            final shouldDelete = await showDialog<bool>(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text('Delete Message'),
+                                content: const Text(
+                                    'Are you sure you want to delete this message?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(ctx).pop(false),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(ctx).pop(true),
+                                    child: const Text('Delete',
+                                        style: TextStyle(color: Colors.red)),
+                                  ),
+                                ],
+                              ),
+                            );
+                            if (shouldDelete == true) {
+                              try {
+                                await FirebaseFirestore.instance
+                                    .collection('chat')
+                                    .doc(messageId)
+                                    .delete();
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text('Failed to delete message.')),
+                                );
                               }
                             }
-                          : null,
+                          }
+                        : null,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: isMe
+                            ? theme.colorScheme.primary.withOpacity(0.85)
+                            : theme.colorScheme.secondary.withOpacity(0.85),
+                        borderRadius: BorderRadius.only(
+                          topLeft: !isMe && isFirstInSequence
+                              ? Radius.zero
+                              : const Radius.circular(18),
+                          topRight: isMe && isFirstInSequence
+                              ? Radius.zero
+                              : const Radius.circular(18),
+                          bottomLeft: const Radius.circular(18),
+                          bottomRight: const Radius.circular(18),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      constraints: const BoxConstraints(maxWidth: 320),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                        horizontal: 18,
+                      ),
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 6,
+                        horizontal: 8,
+                      ),
                       child: Text(
                         message,
                         style: TextStyle(

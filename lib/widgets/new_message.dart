@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_notify/easy_notify.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -33,13 +34,21 @@ class _NewMessageState extends State<NewMessage> {
         .get();
 
     await FirebaseFirestore.instance.collection('chat').add({
-      'message': enteredMessage,
+      'message': enteredMessage.trim(),
       'createdAt': Timestamp.now(),
       'userId': user.uid,
       'username': userData.data()!['username'],
     });
 
     _messageController.clear(); //empty the field after sending the message
+    if (user.isAnonymous) {
+      //send notification
+      EasyNotify.showBasicNotification(
+        id: 1,
+        title: '${(userData.data()!['username'])} sent a new message',
+        body: enteredMessage,
+      );
+    }
   }
 
   //--------------------

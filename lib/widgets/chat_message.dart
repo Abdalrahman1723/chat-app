@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:chat/widgets/message_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_notify/easy_notify.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -58,19 +55,7 @@ class ChatMessage extends StatelessWidget {
             final bool isNextUserIsSame =
                 nextMessageUserId == currentMessageUserId;
             //---------------------- call the message bubble
-            //!------------------
-            Timestamp timestamp = chatMessage['createdAt'];
-            DateTime createdAt = timestamp.toDate();
-            log('this message created at $createdAt');
-            if (authUser.uid != currentMessageUserId &&
-                createdAt.minute == DateTime.now().minute) {
-              //send notification
-              EasyNotify.showBasicNotification(
-                id: 1,
-                title: '${(chatMessage['username'])} sent a new message',
-                body: chatMessage['message'],
-              );
-            }
+
             if (isNextUserIsSame) {
               return MessageBubble.next(
                   message: chatMessage['message'],

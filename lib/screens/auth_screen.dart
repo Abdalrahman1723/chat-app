@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_notify/easy_notify.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -35,12 +36,19 @@ class _AuthScreenState extends State<AuthScreen> {
       });
       //in case of login
       if (_isLogging) {
+
         final UserCredential userCredential =
             await _firebase.signInWithEmailAndPassword(
           email: _enteredEmail,
           password: _enteredPassword,
         );
-
+            //!------------------
+              //send notification
+              EasyNotify.showRepeatedNotification(
+                id: 1,
+                title: 'Check your new messages',
+                body: "see your new messages",
+              );
         //in case of signup
       } else {
         final UserCredential userCredential =
